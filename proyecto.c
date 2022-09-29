@@ -23,9 +23,10 @@ void *oso() {
   if (recipienteMiel[0] > 0 && recipienteMiel[0] <= MAXBUFFER) {
     porcentajeRecipiente = (recipienteMiel[0] * 100) / MAXBUFFER;
     if (porcentajeRecipiente <= 20) {
+      porcionComida = (recipienteMiel[0] - 1);
       recipienteMiel[0] = 0;
     } else {
-      porcionComida = (rand() % rangoPorciones);
+      porcionComida = rand() % rangoPorciones;
       recipienteMiel[0] -= 1 + porcionComida;
     }
     printf("El oso [pid:%d] comio una porcion de %d[Porcion de miel], cantidad "
@@ -61,10 +62,14 @@ void funcErr(char *err) {
 }
 
 int main(int argc, char *argv[]) {
-  if (1) {
-    MAXABEJAS = 10;
-    MAXOSOS = 10;
-    MAXBUFFER = 40;
+  // No se reciven argumentos por argv[]
+  printf("Ingrese la cantidad de abejas: \n");
+  scanf("%d", &MAXABEJAS);
+  printf("Ingrese la cantidad de osos: \n");
+  scanf("%d", &MAXOSOS);
+  printf("Ingrese la cantidad del recipiente: \n");
+  scanf("%d", &MAXBUFFER);
+  if (MAXABEJAS > 0 && MAXOSOS > 0 && MAXBUFFER > 0) {
     rangoPorciones = MAXBUFFER / MAXOSOS;
     if (MAXBUFFER < MAXOSOS) {
       printf("No pueden haber más osos que la cantidad de porciones, debido a "
@@ -97,7 +102,7 @@ int main(int argc, char *argv[]) {
   bandera[0] = 0;
   sem_init(sem_abeja, 1, 1);
   sem_init(sem_oso, 1, 0);
-  printf("Iniciando los semaforos ... \n");
+  printf("Iniciando los semaforos(MUTEX) ... \n");
   sleep(1);
   printf("¡Listo! \n");
   sleep(1);
